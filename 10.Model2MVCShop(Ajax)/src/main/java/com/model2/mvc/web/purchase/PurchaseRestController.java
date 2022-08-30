@@ -1,4 +1,4 @@
-package com.model2.mvc.web.product;
+package com.model2.mvc.web.purchase;
 
 import java.util.Map;
 
@@ -23,8 +23,8 @@ import com.model2.mvc.service.product.ProductService;
 
 
 @Controller
-@RequestMapping("/product/*")
-public class ProductController {
+@RequestMapping("/purchase/*")
+public class PurchaseRestController {
 	
 	///Field
 	@Autowired
@@ -33,7 +33,7 @@ public class ProductController {
 	private Product product;
 	
 	///Constructor
-	public ProductController() {
+	public PurchaseRestController() {
 		System.out.println(this.getClass());
 	}
 	
@@ -47,39 +47,23 @@ public class ProductController {
 	
 	//@RequestMapping("/addProduct.do")
 	//public String addProduct() throws Exception {
-	@RequestMapping( value="addProduct", method=RequestMethod.GET )
+	@RequestMapping( value="json/addProduct", method=RequestMethod.GET )
 	public String addProduct() throws Exception {
 		System.out.println("[  insertProduct.do() start.......]");
 		
-		return  "forward:/product/addProduct.jsp";
+		return  "forward:/product/AddProduct.jsp";
 	}
 	
-	@RequestMapping( value="addProduct", method=RequestMethod.POST )
-	public String addProduct(@ModelAttribute("product") Product product, Model model) throws Exception {
+	@RequestMapping( value="json/addProduct", method=RequestMethod.POST )
+	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
 		System.out.println("[  insertProduct.do() start.......]");
 		
-		String a = product.getManuDate().replaceAll("-","");
-		System.out.println("a 의 값은? -> "+a);
-		
-		 productService.insertProduct(product);
-		 
-		 System.out.println("product 정보 -> "+product);
-		
-		model.addAttribute("product",product);
-		
-		return  "forward:/product/addProduct.jsp";
-	}
-	
-	@RequestMapping( value="addProductView", method=RequestMethod.GET )
-	public String addProductView() throws Exception {
-		System.out.println("[  addProductView.......]");
-		
-		return  "forward:/product/addProductView.jsp";
+		return  "forward:/product/AddProduct.jsp";
 	}
 	
 	//@RequestMapping("/GetProduct.do")
 	//public String GetProduct(@RequestParam("prodNo") int prodNo , Model model ) throws Exception {
-		@RequestMapping( value="getProduct", method=RequestMethod.GET )
+		@RequestMapping( value="json/GetProduct", method=RequestMethod.GET )
 		public String getUser( @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
 		System.out.println("[  GetProduct() start.......]");
 		
@@ -93,7 +77,7 @@ public class ProductController {
 			
 	//@RequestMapping("/updateProductView.do")
 	//public String updateProductView( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
-		@RequestMapping( value="updateProductView", method=RequestMethod.GET )
+		@RequestMapping( value="json/updateProductView", method=RequestMethod.GET )
 		public String updateProductView( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
 			
 		System.out.println("/updateProductView.do");
@@ -107,7 +91,7 @@ public class ProductController {
 	
 	//@RequestMapping("/updateProduct.do")
 	//public String updateProduct( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
-		@RequestMapping( value="updateProduct", method=RequestMethod.GET )
+		@RequestMapping( value="json/updateProduct", method=RequestMethod.GET )
 		public String updateProduct() throws Exception{
 		System.out.println("/product/updateProduct : GET");
 		//Business Logic
@@ -116,7 +100,7 @@ public class ProductController {
 		return "forward:/product/updateProduct.jsp";
 	}
 	
-		@RequestMapping( value="updateProduct", method=RequestMethod.POST )
+		@RequestMapping( value="json/updateProduct", method=RequestMethod.POST )
 		public String updateProduct( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
 		System.out.println("/product/updateProduct : POST");
 		//Business Logic
@@ -129,8 +113,8 @@ public class ProductController {
 //	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 
 
-		@RequestMapping( value="listProduct")
-		public String listProduct( @ModelAttribute("search") Search search , @ModelAttribute("user") User user , Model model , HttpServletRequest request) throws Exception{
+		@RequestMapping( value="json/listProduct")
+		public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 				
 		System.out.println("/product/listProduct : GET / POST");
 		
@@ -139,11 +123,6 @@ public class ProductController {
 		} 
 		search.setPageSize(pageSize);
 		
-		if(user.getUserId()=="user11") {
-			user.setUserId("user11");
-		}else {
-			user.setUserId("admin");
-		}
 		// Business logic 수행
 		Map<String , Object> map=productService.getProductList(search);
 		
@@ -154,10 +133,6 @@ public class ProductController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		model.addAttribute("user", user);
-		
-		System.out.println(search);
-		System.out.println(user);
 		
 		return "forward:/product/listProduct.jsp";
 	}

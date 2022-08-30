@@ -1,4 +1,4 @@
-package com.model2.mvc.web.product;
+package com.model2.mvc.web.purchase;
 
 import java.util.Map;
 
@@ -23,8 +23,8 @@ import com.model2.mvc.service.product.ProductService;
 
 
 @Controller
-@RequestMapping("/product/*")
-public class ProductController {
+@RequestMapping("/purchase/*")
+public class PurchaseController {
 	
 	///Field
 	@Autowired
@@ -33,7 +33,7 @@ public class ProductController {
 	private Product product;
 	
 	///Constructor
-	public ProductController() {
+	public PurchaseController() {
 		System.out.println(this.getClass());
 	}
 	
